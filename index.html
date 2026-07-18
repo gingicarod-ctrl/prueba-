@@ -1,319 +1,360 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-Calculadora de Créditos Colombia (V2.0)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Calzado LilicoG | Streetwear & Sneakers</title>
+    <!-- Tailwind CSS para un desarrollo rápido y diseño moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Syne para títulos impactantes e Inter para lectura limpia -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons para iconos limpios -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-        }
-        body {
-            background-color: #0f172a;
-            color: #f1f5f9;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            background: #1e293b;
-            padding: 35px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            border: 1px solid #334155;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 35px;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 25px;
-        }
-        h1 { color: #38bdf8; font-size: 28px; margin-bottom: 8px; }
-        p.subtitle { color: #94a3b8; font-size: 14px; }
-        .badge {
-            background: #0284c7;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            vertical-align: middle;
-            margin-left: 8px;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 35px;
-        }
-        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
-        .form-group {
-            margin-bottom: 22px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #94a3b8;
-            font-size: 14px;
-        }
-        input, select {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #475569;
-            border-radius: 8px;
-            font-size: 15px;
-            background-color: #0f172a;
-            color: white;
-            transition: all 0.3s;
-        }
-        input:focus, select:focus {
-            outline: none;
-            border-color: #38bdf8;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
-        }
-        .results-box {
-            background-color: #0f172a;
-            border-radius: 12px;
-            padding: 25px;
-            border-top: 4px solid #38bdf8;
-        }
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 14px 0;
-            border-bottom: 1px solid #334155;
-        }
-        .result-item:last-child { border-bottom: none; }
-        .result-label { font-weight: 500; color: #94a3b8; }
-        .result-value { font-weight: 700; color: #f8fafc; font-size: 18px; }
-        .highlight { color: #34d399; font-size: 22px; }
-        .info-card {
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-            font-size: 13px;
-            color: #cbd5e1;
-            line-height: 1.6;
-        }
-        .tabs-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            background: #0f172a;
-            padding: 6px;
-            border-radius: 8px;
-        }
-        .tab-btn {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            padding: 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-        .tab-btn.active {
-            background: #38bdf8;
-            color: #0f172a;
-        }
+        body { font-family: 'Inter', sans-serif; }
+        .font-title { font-family: 'Syne', sans-serif; }
     </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Simulador Multicrédito Colombiano <span class="badge">V2.0 PRO</span></h1>
-            <p class="subtitle">Simulación avanzada: Vivienda, Vehículo, Consumo y Tarjetas con tasas de usura y seguros estimados</p>
-        </header>
+<body class="bg-[#09020f] text-white overflow-x-hidden">
 
-        <div class="tabs-container">
-            <button class="tab-btn active" onclick="cambiarTipo('hipotecario')">🏠 Hipotecario / Leasing</button>
-            <button class="tab-btn" onclick="cambiarTipo('vehiculo')">🚗 Vehículo</button>
-            <button class="tab-btn" onclick="cambiarTipo('libre')">💰 Libre Inversión</button>
-            <button class="tab-btn" onclick="cambiarTipo('tarjeta')">💳 Tarjeta de Crédito</button>
-        </div>
-        
-        <div class="grid">
-            <div>
-                <div class="form-group">
-                    <label id="lblMonto" for="montoPrincipal">Monto Total del Crédito / Valor Inmueble ($ COP)</label>
-                    <input type="number" id="montoPrincipal" value="150000000" step="5000000">
-                </div>
-                
-                <div class="form-group" id="divCuotaInicial">
-                    <label for="cuotaInicial">Cuota Inicial ($ COP)</label>
-                    <input type="number" id="cuotaInicial" value="45000000" step="5000000">
-                </div>
+    <!-- HEADER / NAVIGATION -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-[#09020f]/80 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+            <!-- CONTENEDOR DEL LOGO SVG INTEGRADO -->
+            <a href="#" class="w-48 md:w-56 h-auto block flex items-center justify-center transform hover:scale-105 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="150 50 650 500" width="100%" height="100%">
+                    <defs>
+                        <!-- Sombra paralela para las letras azules -->
+                        <filter id="drop-shadow" x="-20%" y="-20%" width="150%" height="150%">
+                            <feDropShadow dx="3" dy="5" stdDeviation="2" flood-color="#001854" flood-opacity="0.8"/>
+                        </filter>
+                        <!-- Resplandor de los destellos -->
+                        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="6" result="blur" />
+                            <feMerge>
+                                <feMergeNode in="blur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
 
-                <div class="form-group" id="divAmortizacion">
-                    <label for="tipoSistema">Modalidad de Moneda</label>
-                    <select id="tipoSistema">
-                        <option value="pesos">Pesos Colombianos (Cuota Fija)</option>
-                        <option value="uvr">UVR (Indexado a Inflación / IPC)</option>
-                    </select>
-                </div>
+                    <g transform="translate(40, -10)">
+                        <!-- TRAZO PRINCIPAL -->
+                        <path d="M 240 430 C 260 410, 310 395, 410 355 C 470 330, 520 230, 550 140 C 565 100, 560 85, 545 100 C 510 140, 430 260, 370 380 C 330 460, 315 510, 310 550" fill="none" stroke="#0033aa" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+                        <path d="M 240 430 C 260 410, 310 395, 410 355 C 470 330, 520 230, 550 140 C 565 100, 560 85, 545 100 C 510 140, 430 260, 370 380 C 330 460, 315 510, 310 550" fill="none" stroke="#00d2ff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" filter="url(#drop-shadow)"/>
+                        <path d="M 242 428 C 262 408, 310 395, 410 355 C 470 330, 520 230, 548 142 C 558 110, 555 95, 547 103 C 515 140, 435 260, 372 380" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
 
-                <div class="form-group">
-                    <label for="tasaAnual">Tasa de Interés Nominal/Efectiva Propuesta (E.A. %)</label>
-                    <input type="number" id="tasaAnual" value="11.8" step="0.05">
-                </div>
+                        <!-- RESTO DEL TEXTO "ilico" -->
+                        <g fill="none" stroke="#00d2ff" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" filter="url(#drop-shadow)">
+                            <path d="M 445 375 L 445 425" stroke-width="16"/>
+                            <path d="M 475 250 C 475 290, 470 380, 465 425"/>
+                            <path d="M 505 375 L 505 425" stroke-width="16"/>
+                            <path d="M 575 380 C 540 375, 530 425, 570 425"/>
+                            <path d="M 615 400 C 615 370, 650 370, 650 400 C 650 430, 615 430, 615 400 Z"/>
+                        </g>
 
-                <div class="form-group">
-                    <label id="lblPlazo" for="plazo">Plazo de Amortización (Meses)</label>
-                    <input type="number" id="plazo" value="180" min="1" max="360">
-                </div>
+                        <!-- Puntos de las "i" -->
+                        <circle cx="445" cy="350" r="8" fill="#00d2ff" filter="url(#drop-shadow)"/>
+                        <circle cx="505" cy="350" r="8" fill="#00d2ff" filter="url(#drop-shadow)"/>
 
-                <div class="form-group">
-                    <label for="seguroMes">Seguro de Vida Obligatorio + Todo Riesgo Estimado (Mensual $ COP)</label>
-                    <input type="number" id="seguroMes" value="45000" step="5000">
-                </div>
-            </div>
+                        <!-- Trazo horizontal cruzado inferior -->
+                        <path d="M 370 450 C 440 450, 540 445, 620 425" fill="none" stroke="#00b0ff" stroke-width="22" stroke-linecap="round" filter="url(#drop-shadow)"/>
+                        <path d="M 375 450 C 440 450, 540 445, 615 425" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+
+                        <!-- LETRA "G" ELEGANTE -->
+                        <g filter="url(#drop-shadow)">
+                            <path d="M 720 340 C 670 330, 650 380, 655 410 C 660 440, 700 450, 725 430 C 730 425, 730 410, 715 410 L 730 410 L 730 455" fill="none" stroke="#ff00a0" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+                            <circle cx="730" cy="480" r="8" fill="#ff00a0" />
+                        </g>
+
+                        <!-- DESTELLOS DE LUZ -->
+                        <g transform="translate(240, 430)" filter="url(#glow)">
+                            <ellipse cx="0" cy="0" rx="40" ry="6" fill="#ffffff" transform="rotate(-15)" />
+                            <ellipse cx="0" cy="0" rx="6" ry="40" fill="#ffffff" transform="rotate(-15)" />
+                        </g>
+                        <g transform="translate(546, 100)" filter="url(#glow)">
+                            <ellipse cx="0" cy="0" rx="35" ry="5" fill="#ffffff" transform="rotate(25)" />
+                            <ellipse cx="0" cy="0" rx="5" ry="35" fill="#ffffff" transform="rotate(25)" />
+                        </g>
+                    </g>
+                </svg>
+            </a>
             
-            <div>
-                <h2 style="font-size: 18px; margin-bottom: 15px; color: #38bdf8;">Análisis Financiero del Escenario</h2>
-                <div class="results-box">
-                    <div class="result-item">
-                        <span class="result-label">Capital Neto a Financiar</span>
-                        <span class="result-value" id="resFinanciar">$ 0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Tasa Periódica Mes Vencido (M.V.)</span>
-                        <span class="result-value" id="resTasaMes">0.00%</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Cuota Base (Solo Capital + Interés)</span>
-                        <span class="result-value" id="resCuotaBase">$ 0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Seguros Mensuales Adicionados</span>
-                        <span class="result-value" id="resSeguro">$ 0</span>
-                    </div>
-                    <div class="result-item" style="background: rgba(52, 211, 153, 0.05); padding: 10px; border-radius: 6px;">
-                        <span class="result-label" style="color: #34d399; font-weight: 600;">CUOTA MENSUAL TOTAL</span>
-                        <span class="result-value highlight" id="resCuotaTotal">$ 0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Costo Total de Intereses Generados</span>
-                        <span class="result-value" id="resIntereses">$ 0</span>
-                    </div>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide uppercase">
+                <a href="#productos" class="hover:text-[#00d2ff] transition-colors">Catálogo</a>
+                <a href="#hombre" class="hover:text-[#00d2ff] transition-colors">Hombre</a>
+                <a href="#mujer" class="hover:text-[#ff00a0] transition-colors">Mujer</a>
+                <a href="#beneficios" class="hover:text-[#00d2ff] transition-colors">Garantía</a>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                <button class="p-2 hover:text-[#00d2ff] transition-colors" aria-label="Buscar">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                </button>
+                <button class="p-2 hover:text-[#ff00a0] transition-colors relative" aria-label="Carrito">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    <span class="absolute top-1 right-1 bg-[#ff00a0] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">2</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden">
+        <!-- Fondos con gradientes que combinan con el logo (Morado, Cian y Fucsia) -->
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#70098a]/20 via-transparent to-transparent"></div>
+        <div class="absolute -left-40 bottom-20 w-96 h-96 bg-[#00d2ff]/10 rounded-full blur-[120px]"></div>
+        <div class="absolute right-20 bottom-10 w-96 h-96 bg-[#ff00a0]/10 rounded-full blur-[120px]"></div>
+
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10 w-full py-12">
+            <!-- Texto Principal -->
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <span class="inline-block px-3 py-1 bg-white/5 border border-[#00d2ff]/30 rounded-full text-xs font-medium tracking-widest uppercase text-[#00d2ff]">
+                    Nueva Colección 2026
+                </span>
+                <h1 class="font-title text-5xl md:text-7xl lg:text-8xl font-extrabold uppercase tracking-tight leading-none">
+                    La moda<br>que te <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00d2ff] to-[#ff00a0]">define</span>.
+                </h1>
+                <p class="text-gray-400 text-base md:text-lg max-w-xl mx-auto lg:mx-0 font-light">
+                    En <span class="text-white font-bold tracking-wider">LilicoG</span> no seguimos tendencias, las creamos. Descubre nuestra curaduría exclusiva de tenis de edición limitada y streetwear de alto nivel.
+                </p>
+                <div class="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                    <a href="#productos" class="w-full sm:w-auto text-center px-8 py-4 bg-gradient-to-r from-[#00d2ff] to-[#00b0ff] text-black font-bold uppercase tracking-wider text-sm hover:opacity-90 transition-all duration-300 transform hover:-translate-y-1 shadow-lg shadow-[#00d2ff]/20">
+                        Comprar Ahora
+                    </a>
+                    <a href="#hombre" class="w-full sm:w-auto text-center px-8 py-4 bg-transparent border border-white/20 text-white font-semibold uppercase tracking-wider text-sm hover:border-[#ff00a0] transition-all duration-300">
+                        Ver Lookbook
+                    </a>
                 </div>
-                
-                <div class="info-card" id="infoDinamica">
-                    <strong>Análisis del Sistema:</strong> Los créditos hipotecarios en Colombia permiten plazos amplios y tasas competitivas. Recuerde validar si aplica a subsidios del gobierno (Mi Casa Ya / Cobertura FRECH).
+            </div>
+
+            <!-- Imagen Destacada -->
+            <div class="lg:col-span-5 relative flex justify-center">
+                <div class="relative w-72 h-96 md:w-80 md:h-[450px] bg-gradient-to-tr from-[#00d2ff] via-[#70098a] to-[#ff00a0] rounded-2xl rotate-3 overflow-hidden group hover:rotate-0 transition-transform duration-500 shadow-2xl shadow-[#ff00a0]/10">
+                    <div class="absolute inset-0 bg-neutral-900/40 mix-blend-multiply"></div>
+                    <div class="absolute inset-0 flex flex-col justify-end p-6 space-y-2">
+                        <p class="font-title text-2xl uppercase font-black tracking-tight">LilicoG Air Flight</p>
+                        <p class="text-sm text-[#00d2ff] font-medium">$149.99 USD</p>
+                    </div>
+                    <div class="w-full h-full bg-neutral-900 flex items-center justify-center text-white/10 font-title text-8xl select-none">HYPE</div>
+                </div>
+                <!-- Mini card flotante -->
+                <div class="absolute -bottom-6 -left-6 md:-left-12 bg-[#14001d] border border-[#00d2ff]/30 p-4 rounded-xl flex items-center space-x-4 shadow-xl hidden sm:flex">
+                    <div class="w-12 h-12 bg-[#00d2ff]/20 rounded-lg flex items-center justify-center text-[#00d2ff]">
+                        <i data-lucide="zap"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-400">Stock Limitado</p>
+                        <p class="text-sm font-bold">¡Drops Exclusivos!</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
+    <!-- CATEGORÍAS (HOMBRE / MUJER) -->
+    <section id="categorias" class="py-24 bg-[#14001d]/50 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Tarjeta Hombre -->
+            <div id="hombre" class="relative h-[450px] bg-neutral-900 rounded-3xl overflow-hidden group cursor-pointer border border-[#00d2ff]/20">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10"></div>
+                <div class="absolute inset-0 bg-center bg-cover scale-100 group-hover:scale-105 transition-transform duration-700 opacity-60" style="background-image: url('https://images.unsplash.com/photo-1488161628813-04466f872be2?q=80&w=600&auto=format&fit=crop');"></div>
+                <div class="absolute inset-0 z-20 flex flex-col justify-end p-10">
+                    <h3 class="font-title text-4xl uppercase font-black tracking-tight mb-2">Colección Hombre</h3>
+                    <p class="text-gray-300 text-sm max-w-xs mb-6 font-light">Tenis y ropa urbana premium diseñados para destacar.</p>
+                    <span class="inline-flex items-center text-sm font-bold uppercase tracking-wider text-[#00d2ff] group-hover:translate-x-2 transition-transform">
+                        Explorar <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Tarjeta Mujer -->
+            <div id="mujer" class="relative h-[450px] bg-neutral-900 rounded-3xl overflow-hidden group cursor-pointer border border-[#ff00a0]/20">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10"></div>
+                <div class="absolute inset-0 bg-center bg-cover scale-100 group-hover:scale-105 transition-transform duration-700 opacity-60" style="background-image: url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600&auto=format&fit=crop');"></div>
+                <div class="absolute inset-0 z-20 flex flex-col justify-end p-10">
+                    <h3 class="font-title text-4xl uppercase font-black tracking-tight mb-2">Colección Mujer</h3>
+                    <p class="text-gray-300 text-sm max-w-xs mb-6 font-light">Estilo, comodidad y audacia que rompen el molde.</p>
+                    <span class="inline-flex items-center text-sm font-bold uppercase tracking-wider text-[#ff00a0] group-hover:translate-x-2 transition-transform">
+                        Explorar <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTOS DESTACADOS -->
+    <section id="productos" class="py-24 max-w-7xl mx-auto px-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 space-y-4 md:space-y-0">
+            <div>
+                <span class="text-xs uppercase font-semibold tracking-widest text-[#ff00a0] block mb-2">Los más buscados</span>
+                <h2 class="font-title text-4xl md:text-5xl font-black uppercase tracking-tight">Hype Destacado</h2>
+            </div>
+            <div class="flex space-x-3">
+                <button class="px-4 py-2 border border-white/10 rounded-full text-xs font-semibold uppercase bg-white text-black transition-colors">Tenis</button>
+                <button class="px-4 py-2 border border-white/10 rounded-full text-xs font-semibold uppercase text-white hover:bg-white hover:text-black transition-colors">Ropa</button>
+            </div>
+        </div>
+
+        <!-- Grid de Productos -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Producto 1 -->
+            <div class="group">
+                <div class="relative bg-[#14001d] rounded-2xl p-6 mb-4 overflow-hidden border border-white/5 flex items-center justify-center h-72">
+                    <span class="absolute top-4 left-4 bg-[#ff00a0] text-white text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded">Hot Drop</span>
+                    <button class="absolute top-4 right-4 p-2 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:text-[#ff00a0]">
+                        <i data-lucide="heart" class="w-4 h-4"></i>
+                    </button>
+                    <div class="font-title text-3xl text-neutral-800 uppercase font-black transition-transform group-hover:scale-110 duration-500">SNEAKER 01</div>
+                    <button class="absolute bottom-4 inset-x-4 bg-white text-black py-3 text-xs font-bold uppercase tracking-wider translate-y-16 group-hover:translate-y-0 transition-transform duration-300 flex items-center justify-center space-x-2">
+                        <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                        <span>Añadir al Carrito</span>
+                    </button>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-gray-200 group-hover:text-[#00d2ff] transition-colors text-sm">LilicoG Retro High 'Onyx'</h3>
+                        <p class="text-xs text-gray-500 mt-1">Calzado Hombre</p>
+                    </div>
+                    <p class="font-bold text-sm text-right">$150.00</p>
+                </div>
+            </div>
+
+            <!-- Producto 2 -->
+            <div class="group">
+                <div class="relative bg-[#14001d] rounded-2xl p-6 mb-4 overflow-hidden border border-white/5 flex items-center justify-center h-72">
+                    <div class="font-title text-3xl text-neutral-800 uppercase font-black transition-transform group-hover:scale-110 duration-500">HOODIE 02</div>
+                    <button class="absolute bottom-4 inset-x-4 bg-white text-black py-3 text-xs font-bold uppercase tracking-wider translate-y-16 group-hover:translate-y-0 transition-transform duration-300 flex items-center justify-center space-x-2">
+                        <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                        <span>Añadir al Carrito</span>
+                    </button>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-gray-200 group-hover:text-[#00d2ff] transition-colors text-sm">Oversized Heavyweight Hoodie</h3>
+                        <p class="text-xs text-gray-500 mt-1">Ropa Unisex</p>
+                    </div>
+                    <p class="font-bold text-sm text-right">$85.00</p>
+                </div>
+            </div>
+
+            <!-- Producto 3 -->
+            <div class="group">
+                <div class="relative bg-[#14001d] rounded-2xl p-6 mb-4 overflow-hidden border border-white/5 flex items-center justify-center h-72">
+                    <span class="absolute top-4 left-4 bg-[#00d2ff] text-black text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded">Nuevo</span>
+                    <div class="font-title text-3xl text-neutral-800 uppercase font-black transition-transform group-hover:scale-110 duration-500">RUNNER 03</div>
+                    <button class="absolute bottom-4 inset-x-4 bg-white text-black py-3 text-xs font-bold uppercase tracking-wider translate-y-16 group-hover:translate-y-0 transition-transform duration-300 flex items-center justify-center space-x-2">
+                        <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                        <span>Añadir al Carrito</span>
+                    </button>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-gray-200 group-hover:text-[#00d2ff] transition-colors text-sm">LilicoG Aura Nova Runner</h3>
+                        <p class="text-xs text-gray-500 mt-1">Calzado Mujer</p>
+                    </div>
+                    <p class="font-bold text-sm text-right">$135.00</p>
+                </div>
+            </div>
+
+            <!-- Producto 4 -->
+            <div class="group">
+                <div class="relative bg-[#14001d] rounded-2xl p-6 mb-4 overflow-hidden border border-white/5 flex items-center justify-center h-72">
+                    <div class="font-title text-3xl text-neutral-800 uppercase font-black transition-transform group-hover:scale-110 duration-500">JACKET 04</div>
+                    <button class="absolute bottom-4 inset-x-4 bg-white text-black py-3 text-xs font-bold uppercase tracking-wider translate-y-16 group-hover:translate-y-0 transition-transform duration-300 flex items-center justify-center space-x-2">
+                        <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                        <span>Añadir al Carrito</span>
+                    </button>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-gray-200 group-hover:text-[#00d2ff] transition-colors text-sm">Windbreaker Impermeable</h3>
+                        <p class="text-xs text-gray-500 mt-1">Ropa Hombre</p>
+                    </div>
+                    <p class="font-bold text-sm text-right">$110.00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE BENEFICIOS -->
+    <section id="beneficios" class="py-20 bg-[#14001d]/50 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="flex flex-col items-center text-center space-y-4">
+                <div class="w-14 h-14 bg-white/5 rounded-full flex items-center justify-center border border-white/10 text-[#00d2ff]">
+                    <i data-lucide="truck" class="w-6 h-6"></i>
+                </div>
+                <h4 class="font-title text-lg uppercase font-bold tracking-tight">Envío Express Gratis</h4>
+                <p class="text-gray-400 text-sm max-w-xs font-light">En todas tus compras superiores a $100 USD. Recibe rápido y seguro.</p>
+            </div>
+
+            <div class="flex flex-col items-center text-center space-y-4">
+                <div class="w-14 h-14 bg-white/5 rounded-full flex items-center justify-center border border-white/10 text-[#ff00a0]">
+                    <i data-lucide="shield-check" class="w-6 h-6"></i>
+                </div>
+                <h4 class="font-title text-lg uppercase font-bold tracking-tight">Garantía de Autenticidad</h4>
+                <p class="text-gray-400 text-sm max-w-xs font-light">Productos 100% originales de fábrica. Sin imitaciones, solo calidad real.</p>
+            </div>
+
+            <div class="flex flex-col items-center text-center space-y-4">
+                <div class="w-14 h-14 bg-white/5 rounded-full flex items-center justify-center border border-white/10 text-[#00d2ff]">
+                    <i data-lucide="refresh-cw" class="w-6 h-6"></i>
+                </div>
+                <h4 class="font-title text-lg uppercase font-bold tracking-tight">Cambios Flexibles</h4>
+                <p class="text-gray-400 text-sm max-w-xs font-light">¿No te quedó tu talla? Tienes 30 días para realizar cambios de forma gratuita.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER / NEWSLETTER -->
+    <footer class="bg-[#09020f] border-t border-white/10 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 pb-16">
+            <!-- Info de Marca -->
+            <div class="md:col-span-4 space-y-4">
+                <div class="w-40 h-auto">
+                    <!-- Mini versión del logo para el footer -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="150 150 650 400" width="100%" height="100%">
+                        <g fill="none" stroke="#00d2ff" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M 240 430 C 260 410, 310 395, 410 355 C 470 330, 520 230, 550 140 C 565 100, 560 85, 545 100 C 510 140, 430 260, 370 380 Z" stroke="#00d2ff" stroke-width="12"/>
+                        </g>
+                        <path d="M 720 340 C 670 330, 650 380, 655 410 C 660 440, 700 450, 725 430 L 730 455" fill="none" stroke="#ff00a0" stroke-width="12" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <p class="text-gray-400 text-sm font-light max-w-xs">
+                    Elevando el estándar de la moda urbana mediante diseño disruptivo y autenticidad urbana.
+                </p>
+                <div class="flex space-x-4 pt-2">
+                    <a href="#" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#00d2ff] hover:text-black transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#ff00a0] hover:text-white transition-colors"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                </div>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="md:col-span-8 space-y-4 md:pl-12">
+                <h5 class="font-title text-xl uppercase font-bold tracking-tight text-[#ff00a0]">Únete al club LilicoG</h5>
+                <p class="text-gray-400 text-sm font-light max-w-md">Suscríbete para recibir accesos anticipados a lanzamientos exclusivos (Drops), descuentos y tendencias.</p>
+                <form class="flex flex-col sm:flex-row gap-3 max-w-lg pt-2" onsubmit="event.preventDefault(); alert('¡Te has suscrito con éxito!');">
+                    <input type="email" placeholder="Tu correo electrónico" required class="flex-1 bg-[#14001d] border border-white/10 px-5 py-4 text-sm focus:outline-none focus:border-[#00d2ff] transition-colors text-white placeholder-gray-600">
+                    <button type="submit" class="bg-gradient-to-r from-[#00d2ff] to-[#ff00a0] text-white text-xs font-bold uppercase tracking-widest px-8 py-4 hover:opacity-90 transition-opacity">Unirme</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="max-w-7xl mx-auto px-6 border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 space-y-4 sm:space-y-0">
+            <p>&copy; 2026 LilicoG. Todos los derechos reservados.</p>
+            <div class="flex space-x-6">
+                <a href="#" class="hover:text-white transition-colors">Términos y Condiciones</a>
+                <a href="#" class="hover:text-white transition-colors">Política de Privacidad</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script para inicializar Lucide Icons -->
     <script>
-        let tipoCreditoActivo = 'hipotecario';
-
-        function cambiarTipo(tipo) {
-            tipoCreditoActivo = tipo;
-            
-            // Actualizar botones de pestañas
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            // Modificar visibilidad y valores sugeridos según la modalidad colombiana estándar
-            const divCuotaInicial = document.getElementById('divCuotaInicial');
-            const divAmortizacion = document.getElementById('divAmortizacion');
-            const lblMonto = document.getElementById('lblMonto');
-            const lblPlazo = document.getElementById('lblPlazo');
-            
-            if (tipo === 'hipotecario') {
-                lblMonto.textContent = "Valor del Inmueble ($ COP)";
-                lblPlazo.textContent = "Plazo de Amortización (Meses)";
-                divCuotaInicial.style.display = 'block';
-                divAmortizacion.style.display = 'block';
-                document.getElementById('montoPrincipal').value = "150000000";
-                document.getElementById('cuotaInicial').value = "45000000";
-                document.getElementById('tasaAnual').value = "11.5";
-                document.getElementById('plazo').value = "240";
-                document.getElementById('seguroMes').value = "55000";
-                document.getElementById('infoDinamica').innerHTML = "<strong>Análisis del Sistema:</strong> Financiamiento máx del 70% para vivienda NO VIS y 80% para VIS. Estabilidad a largo plazo mediante cuotas fijas en pesos.";
-            } else if (tipo === 'vehiculo') {
-                lblMonto.textContent = "Monto a Financiar el Vehículo ($ COP)";
-                lblPlazo.textContent = "Plazo de Amortización (Meses)";
-                divCuotaInicial.style.display = 'none';
-                divAmortizacion.style.display = 'none';
-                document.getElementById('montoPrincipal').value = "60000000";
-                document.getElementById('tasaAnual').value = "15.5";
-                document.getElementById('plazo').value = "72";
-                document.getElementById('seguroMes').value = "80000"; // Incluye póliza auto todo riesgo endosada
-                document.getElementById('infoDinamica').innerHTML = "<strong>Análisis del Sistema:</strong> El crédito de vehículo suele exigir pignoración del automotor. Las tasas varían si el carro es nuevo o usado.";
-            } else if (tipo === 'libre') {
-                lblMonto.textContent = "Monto del Crédito de Consumo ($ COP)";
-                lblPlazo.textContent = "Plazo Solicitado (Meses)";
-                divCuotaInicial.style.display = 'none';
-                divAmortizacion.style.display = 'none';
-                document.getElementById('montoPrincipal').value = "20000000";
-                document.getElementById('tasaAnual').value = "22.0";
-                document.getElementById('plazo').value = "48";
-                document.getElementById('seguroMes').value = "15000";
-                document.getElementById('infoDinamica').innerHTML = "<strong>Análisis del Sistema:</strong> Libre inversión/Consumo. Tasas más elevadas sujetas al perfil de riesgo. Alerta con la tasa de usura fijada por la Superfinanciera.";
-            } else if (tipo === 'tarjeta') {
-                lblMonto.textContent = "Cupo Utilizado / Avance / Compra ($ COP)";
-                lblPlazo.textContent = "Diferido a Cuotas (Meses)";
-                divCuotaInicial.style.display = 'none';
-                divAmortizacion.style.display = 'none';
-                document.getElementById('montoPrincipal').value = "5000000";
-                document.getElementById('tasaAnual').value = "28.5"; // Cercano a la usura habitual de tarjetas
-                document.getElementById('plazo').value = "24";
-                document.getElementById('seguroMes').value = "6000"; // Seguro de cartera común
-                document.getElementById('infoDinamica').innerHTML = "<strong>Análisis del Sistema:</strong> Compras diferidas a 1 sola cuota por lo general no generan intereses corrientes en Colombia. Evite los avances en efectivo debido a su alto costo inmediato.";
-            }
-            
-            calcularTodo();
-        }
-
-        function calcularTodo() {
-            const montoPrincipal = parseFloat(document.getElementById('montoPrincipal').value) || 0;
-            const cuotaInicial = tipoCreditoActivo === 'hipotecario' ? (parseFloat(document.getElementById('cuotaInicial').value) || 0) : 0;
-            const tasaAnual = parseFloat(document.getElementById('tasaAnual').value) || 0;
-            const plazo = parseInt(document.getElementById('plazo').value) || 0;
-            const seguroMes = parseFloat(document.getElementById('seguroMes').value) || 0;
-
-            const capitalFinanciar = montoPrincipal - cuotaInicial;
-            document.getElementById('resFinanciar').textContent = '$ ' + capitalFinanciar.toLocaleString('es-CO');
-
-            if (capitalFinanciar <= 0 || plazo <= 0 || tasaAnual <= 0) {
-                document.getElementById('resCuotaBase').textContent = "$ 0";
-                document.getElementById('resCuotaTotal').textContent = "$ 0";
-                document.getElementById('resIntereses').textContent = "$ 0";
-                return;
-            }
-
-            // Convertir de Efectiva Anual (E.A) a Mensual Vencida (M.V)
-            const tasaMensual = Math.pow(1 + (tasaAnual / 100), 1 / 12) - 1;
-            document.getElementById('resTasaMes').textContent = (tasaMensual * 100).toFixed(2) + '%';
-
-            // Cálculo de la cuota base usando amortización constante (sistema francés)
-            const cuotaBase = (capitalFinanciar * tasaMensual) / (1 - Math.pow(1 + tasaMensual, -plazo));
-            const cuotaTotal = cuotaBase + seguroMes;
-            const totalIntereses = (cuotaBase * plazo) - capitalFinanciar;
-
-            document.getElementById('resCuotaBase').textContent = '$ ' + Math.round(cuotaBase).toLocaleString('es-CO');
-            document.getElementById('resSeguro').textContent = '$ ' + Math.round(seguroMes).toLocaleString('es-CO');
-            document.getElementById('resCuotaTotal').textContent = '$ ' + Math.round(cuotaTotal).toLocaleString('es-CO');
-            document.getElementById('resIntereses').textContent = '$ ' + Math.round(totalIntereses).toLocaleString('es-CO');
-        }
-
-        // Listener para recálculo dinámico en cualquier interacción
-        document.querySelectorAll('input, select').forEach(element => {
-            element.addEventListener('input', calcularTodo);
-        });
-
-        // Inicialización en la carga original
-        calcularTodo();
+        lucide.createIcons();
     </script>
 </body>
 </html>
